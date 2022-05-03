@@ -169,7 +169,8 @@ class Message < ApplicationRecord
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if outgoing? && conversation.messages.outgoing.where(created_by: nil).count == 1
+    campaign_outgoing_messages = conversation.messages.outgoing.where(created_by: 'Campaign')
+    if outgoing? && (conversation.messages.outgoing.count - campaign_outgoing_messages.count) == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end
