@@ -6,6 +6,7 @@
 #  content             :text
 #  content_attributes  :json
 #  content_type        :integer          default("text"), not null
+#  created_by          :string
 #  external_source_ids :jsonb
 #  message_type        :integer          not null
 #  private             :boolean          default(FALSE)
@@ -168,7 +169,7 @@ class Message < ApplicationRecord
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if outgoing? && conversation.messages.outgoing.count == 1
+    if outgoing? && conversation.messages.outgoing.where(created_by: nil).count == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
     end
   end

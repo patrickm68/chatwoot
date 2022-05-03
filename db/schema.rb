@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_28_101325) do
+ActiveRecord::Schema.define(version: 2022_05_03_071925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -576,6 +576,7 @@ ActiveRecord::Schema.define(version: 2022_04_28_101325) do
     t.string "sender_type"
     t.bigint "sender_id"
     t.jsonb "external_source_ids", default: {}
+    t.string "created_by"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"

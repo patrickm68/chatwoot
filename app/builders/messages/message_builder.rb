@@ -86,7 +86,8 @@ class Messages::MessageBuilder
       content_type: @params[:content_type],
       items: @items,
       in_reply_to: @in_reply_to,
-      echo_id: @params[:echo_id]
+      echo_id: @params[:echo_id],
+      created_by: @params[:created_by]
     }.merge(external_created_at).merge(automation_rule_id)
   end
 end
